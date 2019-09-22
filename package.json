@@ -50,6 +50,7 @@
     "react-app-polyfill": "^1.0.3",
     "react-dev-utils": "^9.0.4",
     "react-dom": "^16.9.0",
+    "react-router-dom": "^5.0.1",
     "resolve": "1.12.0",
     "resolve-url-loader": "3.1.0",
     "sass-loader": "7.2.0",
@@ -67,7 +68,7 @@
     "start": "cross-env REACT_APP_SECRET_API=development node scripts/start.js",
     "build": "cross-env REACT_APP_SECRET_API=production node scripts/build.js",
     "test": "node scripts/test.js",
-    "uat":"cross-env REACT_APP_SECRET_API=uat node scripts/build.js"
+    "uat": "cross-env REACT_APP_SECRET_API=uat node scripts/build.js"
   },
   "eslintConfig": {
     "extends": "react-app"
