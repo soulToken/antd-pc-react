@@ -1,12 +1,17 @@
 import React, { Component } from 'react';
 import SvgIcon from "@/components/common/svgIcon/index";
 import {    HashRouter as Router,Link} from 'react-router-dom';
+import {StatisticsHistroy} from '@/api/index';
 class Demo extends Component{
     componentDidMount(){
+    
       var param={
         count: 0,
         variety: 1
       }
+      StatisticsHistroy(param).then(()=>{
+  
+      }) 
      
     }
     render(){
