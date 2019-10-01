@@ -8,10 +8,17 @@ function asyncComponent(importComponent) {
       }
     }
     async componentDidMount() {
+      this._isMounted = true
       const { default: component } = await importComponent()
+      if(!this._isMounted){
+        return 
+      }
       this.setState({
         component: component
       })
+    }
+    componentWillUnmount() {
+      this._isMounted = false
     }
     render() {
       const RenderComponet = this.state.component

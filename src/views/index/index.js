@@ -30,15 +30,9 @@ class Demo extends Component{
         <SvgIcon iconClass="print"  style={{width:'30px',height:'30px'}} />
         {/* <Route exact path="/home/index"  component={asyncComponent(() => import('@/views/dashcord'))} />
         <Route exact path="/home/ui/button"  component={button} /> */}
-      
- 
-               {
-                   
+               {      
                  menuList.map((r,index) => {
-               
-                 
-                             const route = r => {
-                              
+                             const route = r => {    
                                 return (
                                     <Route
                                         key={r.key}
@@ -47,30 +41,13 @@ class Demo extends Component{
                                         component={r.component}
                                      />
                                )
-                            }
-
-                      
-                          return r.component ? route(r) : r.subs.map(r => route(r));
-                        //   return (  <Route
-                        //                  key={index}
-                        //                  exact
-                        //                  path={r.key}
-                        //                  component={r.component}
-                        //             />)
-                        //  })
-                      
+                            } 
+                       return   r.component ? route(r) : r.subs.map(r => route(r));
                      
                  })
                 }
-
-                 <Route render={() => <Redirect to="/404" />} /> 
-      
-
-
-
-    </div>
-  
-   
+                 {/* <Route render={() => <Redirect to="/404" />} />  */}
+    </div>  
     );
   }
   }

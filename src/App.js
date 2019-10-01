@@ -23,7 +23,7 @@ class App extends Component {
         <Router>
           <Switch>
 
-            <Route path='/' exact render={() => <Redirect to="/home"> </Redirect>}></Route>
+            <Route path='/' exact render={() => <Redirect to="/home/index"> </Redirect>}></Route>
             {
               routers.map((item, index) => {
                 return <Route  path={item.path} component={item.component} key={index} />
