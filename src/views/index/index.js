@@ -26,19 +26,22 @@ class Demo extends Component{
     return (
       
       <div style={{height:'1000px'}}> 
-        oioioioio
         <SvgIcon iconClass="print"  style={{width:'30px',height:'30px'}} />
-        {/* <Route exact path="/home/index"  component={asyncComponent(() => import('@/views/dashcord'))} />
-        <Route exact path="/home/ui/button"  component={button} /> */}
                {      
                  menuList.map((r,index) => {
-                             const route = r => {    
+                             const route = r => {  
+                               let Component=r.component  
                                 return (
                                     <Route
                                         key={r.key}
                                         exact
                                         path={ r.key}
-                                        component={r.component}
+                                        render={
+                                          (props)=>{
+                                              return <Component   {...props} />
+                                          }
+                                        }
+                                       
                                      />
                                )
                             } 
