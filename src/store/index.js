@@ -1,13 +1,18 @@
-import { createStore } from 'redux'
-const reducer = (state=0,action)=>{
-  switch (action.type){
-    case 'add':
-      return state+1;
-    case 'del':
-      return state-1;
-    default:
-      return state
-  }
-};
-let store = createStore(reducer);
+import { createStore ,combineReducers} from 'redux'
+
+let API = {};
+const apiContext = require.context('./reducers', true, /\.js$/)
+apiContext.keys().forEach(component => {
+  const apiConfig = apiContext(component)
+  /**
+  * 兼容 import export 和 require module.export 两种规范
+  */
+  const ctrlObj = apiConfig.default || apiConfig
+	API = {...API, ...ctrlObj}
+	// Object.assign(API,ctrlObj)
+	// for(var i in ctrl){
+	// 	API[i] = ctrl[i];
+	// }
+})
+let store = createStore(combineReducers(API));
 export default store
