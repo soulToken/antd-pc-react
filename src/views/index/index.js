@@ -1,13 +1,20 @@
 import React, { Component } from 'react';
 import SvgIcon from "@/components/common/svgIcon/index";
-import {    HashRouter as Router,Switch,Link,Redirect,Route} from 'react-router-dom';
-import Login from '@/views/login/'
-import button from '@/views/button'
-import dashcord from '@/views/dashcord'
-import {StatisticsHistroy} from '@/api/index';
-import menuList from '@/router/config';
-import asyncComponent from '@/components/common/AsyncComponent'
+import {Route} from 'react-router-dom';
+import { Layout, Menu, Breadcrumb, Icon } from 'antd';
+import menuList from '@/router/config'
+import SiderCustom from '@/components/SiderCustom';
+const { Header, Content, Footer, Sider } = Layout;
+const { SubMenu } = Menu;
 class Demo extends Component{
+  state = {
+    collapsed: false,
+  };
+
+  onCollapse = collapsed => {
+    console.log(collapsed);
+    this.setState({ collapsed });
+  };
     componentDidMount(){
     
       // var param={
@@ -24,8 +31,19 @@ class Demo extends Component{
     render(){
       const {path} = this.props.match;
     return (
-      
-      <div style={{height:'1000px'}}> 
+      <Layout style={{ minHeight: '100vh' }}>
+      <Sider collapsible collapsed={this.state.collapsed} onCollapse={this.onCollapse}>
+        <div className="logo" />
+        <SiderCustom collapsed={this.state.collapsed} />
+      </Sider>
+      <Layout>
+        <Header style={{ background: '#fff', padding: 0 }} />
+        <Content style={{ margin: '0 16px' }}>
+          <Breadcrumb style={{ margin: '16px 0' }}>
+            <Breadcrumb.Item>User</Breadcrumb.Item>
+            <Breadcrumb.Item>Bill</Breadcrumb.Item>
+          </Breadcrumb>
+          <div style={{height:'1000px'}}> 
         <SvgIcon iconClass="print"  style={{width:'30px',height:'30px'}} />
                {      
                  menuList.map((r,index) => {
@@ -51,6 +69,14 @@ class Demo extends Component{
                 }
                  {/* <Route render={() => <Redirect to="/404" />} />  */}
     </div>  
+        </Content>
+        <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>
+      </Layout>
+    </Layout>
+
+
+
+   
     );
   }
   }
