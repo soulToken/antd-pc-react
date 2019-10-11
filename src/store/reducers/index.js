@@ -18,5 +18,14 @@ export const text = (state={},action)=>{
           return state;
   }
 }
+export const asideWidth=(state=200,action)=>{
+  const {type,width} = action;
+  switch(type){
+    case 'CHANGE_WIDTH':
+        return width
+    default:
+        return state;
+  }
+}
 
 

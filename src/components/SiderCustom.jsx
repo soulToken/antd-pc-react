@@ -1,12 +1,10 @@
-/**
- * Created by hao.cheng on 2017/4/13.
- */
 import React, { Component } from 'react';
 import { Layout } from 'antd';
 import { withRouter } from 'react-router-dom';
 import routes from '@/router/config';
 import SiderMenu from './SiderMenu';
-
+import {connect} from "react-redux"
+import './slide.less'
 const { Sider } = Layout;
 
 class SiderCustom extends Component {
@@ -17,6 +15,7 @@ class SiderCustom extends Component {
             return {
                 ...state1,
                 ...state2,
+                other:'harry',
                 firstHide: state.collapsed !== props.collapsed && props.collapsed, // 两个不等时赋值props属性值否则为false
                 openKey: state.openKey || (!props.collapsed && state1.openKey)
             }
@@ -34,7 +33,7 @@ class SiderCustom extends Component {
         console.log(collapsed);
         return {
             collapsed,
-            // firstHide: collapsed,
+            firstHide: collapsed,
             mode: collapsed ? 'vertical' : 'inline',
         };
     };
@@ -42,13 +41,18 @@ class SiderCustom extends Component {
         collapsed: false,
         mode: 'inline',
         openKey: '',
+        other:'',
         selectedKey: '',
-        firstHide: true, // 点击收缩菜单，第一次隐藏展开子菜单，openMenu时恢复
+        asideWidth:200, //默认宽度
+        firstHide: false, // 点击收缩菜单，第一次隐藏展开子菜单，openMenu时恢复
     };
     componentDidMount() {
         // this.setMenuOpen(this.props);
         const state = SiderCustom.setMenuOpen(this.props);
+ 
         this.setState(state);
+   
+
     }
     menuClick = e => {
         this.setState({
@@ -65,28 +69,94 @@ class SiderCustom extends Component {
             firstHide: false,
         })
     };
+    mousedown(e){
+        let _this = this;
+        var resize = document.getElementById("resize");
+        var startX = e.clientX;
+        resize.left = resize.offsetLeft;
+        document.onmousemove = function(e) {
+          var endX = e.clientX;
+          var moveLen = resize.left + (endX - startX);  
+           
+          if (moveLen < 150) {
+            if(moveLen<100){
+                return 
+            }
+            _this.props.changeWidth(moveLen)
+            _this.setState({
+                collapsed:true,
+                asideWidth:moveLen
+            })
+          }
+          else if (moveLen > 400) {
+            _this.setState({
+                collapsed:true
+            })
+            moveLen = 400;
+            _this.props.changeWidth(moveLen)
+            _this.setState({
+                asideWidth:moveLen
+            })
+            _this.mainLeft = moveLen + 5 + "px";
+            resize.style.left = moveLen + "px";
+          } else {
+            _this.props.changeWidth(moveLen)
+            _this.setState({
+                collapsed:true
+            })
+            _this.asideWidth = moveLen + "px";
+            _this.mainLeft = moveLen + 5 + "px";
+            _this.setState({
+                asideWidth:moveLen
+            })
+            resize.style.left = moveLen + "px";
+          }
+        }
+        document.onmouseup = function(e) {
+          document.onmousemove = null;
+          document.onmouseup = null;
+          resize.releaseCapture && resize.releaseCapture();
+        }
+        resize.setCapture && resize.setCapture();
+        return false;
+      
+    }
     render() {
         return (
+            <div>
+            {
+                !this.state.collapsed &&
+               
+            <div onMouseDown={this.mousedown.bind(this)} className="resize" id="resize"  style={{left: this.state.asideWidth }}></div>
+           }
             <Sider
                 trigger={null}
                 breakpoint="lg"
+                theme="light"
                 collapsed={this.props.collapsed}
-                style={{   
-                  overflow: 'auto',
-                  height: '100vh',
-                  position: 'fixed',
-                  left: 0,
-               }}
+                width={this.state.asideWidth+5}
+                style={{
+                    overflow: 'auto',
+                    height: '100vh',
+                    position: 'fixed',
+                    left: 0
+                }}
+               
             >
-                <div className="logo" />
+                <div className="logo" >
+                        {/* {this.state.other} */}
+
+                </div>
+
                 <SiderMenu
                     menus={routes}
                     onClick={this.menuClick}
                     mode="inline"
+                    theme="light"
+                   
                     selectedKeys={[this.state.selectedKey]}
-                    openKeys={this.state.firstHide ? null : [this.state.openKey]}
+                    openKeys={ this.state.firstHide?null:[this.state.openKey]}
                     onOpenChange={this.openMenu}
-                    style={{paddingBottom:48,height:'100%'}}
                 />
                 <style>
                     {`
@@ -97,8 +167,15 @@ class SiderCustom extends Component {
                     `}
                 </style>
             </Sider>
+            </div>
         )
     }
 }
-
-export default withRouter(SiderCustom);
+let mapDispatchToProps=(dispatch)=>{
+    return {
+        changeWidth(width){
+            dispatch({type:'CHANGE_WIDTH',width:width})
+        }
+    }
+}
+export default connect(null,mapDispatchToProps)((withRouter(SiderCustom)))

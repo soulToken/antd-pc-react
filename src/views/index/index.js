@@ -4,6 +4,7 @@ import {Route} from 'react-router-dom';
 import { Layout, Menu, Breadcrumb, Icon } from 'antd';
 import menuList from '@/router/config'
 import SiderCustom from '@/components/SiderCustom';
+import {connect} from "react-redux"
 const { Header, Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
 class Demo extends Component{
@@ -32,7 +33,7 @@ class Demo extends Component{
       const {path} = this.props.match;
     return (
       <Layout style={{ minHeight: '100vh' }}>
-      <Sider collapsible collapsed={this.state.collapsed} onCollapse={this.onCollapse}>
+      <Sider collapsible width={this.props.asideWidth} collapsed={this.state.collapsed} onCollapse={this.onCollapse}>
         <div className="logo" />
         <SiderCustom collapsed={this.state.collapsed} />
       </Sider>
@@ -80,4 +81,9 @@ class Demo extends Component{
     );
   }
   }
-  export default Demo;
+  let mapStateToProps=(state)=>{
+    return {
+      asideWidth:state.asideWidth
+    }
+  }
+  export default connect(mapStateToProps)(Demo);
