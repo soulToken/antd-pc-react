@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux"
+import intl from 'react-intl-universal';
 class Demo extends Component {
   componentDidMount() {
     console.log(this.props)
@@ -11,6 +12,9 @@ class Demo extends Component {
     let { value } = this.props
     return (
       <div onClick={this.change.bind(this)}>
+        {
+          intl.get('index.good')
+        }
         首页 {value.addDec}
       </div>
     );

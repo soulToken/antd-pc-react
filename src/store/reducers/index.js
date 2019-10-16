@@ -27,5 +27,14 @@ export const asideWidth=(state=200,action)=>{
         return state;
   }
 }
+export const lang=(state="en",action)=>{
+  const {type} = action;
+  switch(type){
+    case 'CHANGE_LANG':
+        return state==="en"?'zh':'en'
+    default:
+        return state;
+  }
+}
 
 
