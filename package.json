@@ -145,6 +145,6 @@
   "homepage": ".",
   "devDependencies": {
     "cross-env": "^6.0.0",
-    "svg-sprite-loader": "^4.1.6"
+    "svg-sprite-loader": "^6.0.11"
   }
 }
